@@ -38,6 +38,7 @@ import br.com.argus.auth.AuthSessionRepository;
 /**
  * API stateless: cada requisição se autentica com {@code Authorization: Bearer <access token>}.
  * Login/refresh/logout são públicos e usam o cookie HttpOnly do refresh token.
+ * Os arquivos do frontend (HTML/CSS/JS) são públicos; os dados só saem pela API autenticada.
  * Autorização por perfil é feita com {@code @PreAuthorize} nos controllers.
  */
 @Configuration
@@ -49,6 +50,8 @@ public class SecurityConfig {
             "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout");
 
     private static final String[] PUBLIC_GET_PATHS = {
+            // Frontend estático (src/main/resources/static). Os dados vêm da API, que continua protegida.
+            "/", "/index.html", "/favicon.svg", "/assets/**",
             "/actuator/health", "/actuator/health/**", "/actuator/info",
             "/v3/api-docs", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**"
     };

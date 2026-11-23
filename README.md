@@ -17,6 +17,7 @@ rastreabilidade. Projeto de TCC de Engenharia de Software.
 .
 ├── backend/                 API REST — Java 25 + Spring Boot 4.2
 │   ├── src/main/java/br/com/argus/
+│   ├── src/main/resources/static/         frontend web (HTML, CSS e JS puros)
 │   ├── src/main/resources/db/migration/   migrações Flyway
 │   └── http/argus.http      requisições de exemplo
 ├── docs/
@@ -34,7 +35,8 @@ rastreabilidade. Projeto de TCC de Engenharia de Software.
 - **PostgreSQL** em produção; **H2** (modo PostgreSQL) em desenvolvimento e testes
 - **Flyway** para versionar o schema
 - **springdoc-openapi**: Swagger UI
-- **JUnit 5 + MockMvc**: 45 testes (unitários e de integração com a cadeia de segurança real)
+- **Frontend**: HTML, CSS e JavaScript puros (ES modules, sem build), servido pelo próprio Spring Boot
+- **JUnit 5 + MockMvc**: 48 testes (unitários e de integração com a cadeia de segurança real)
 
 ## Como rodar
 
@@ -49,6 +51,7 @@ cd backend
 
 Sobe em `http://localhost:8080` com H2 em memória e os dados fictícios do protótipo.
 
+- **Aplicação web: http://localhost:8080** (entre com um dos usuários abaixo)
 - Swagger UI: http://localhost:8080/swagger-ui.html (faça login e use o botão **Authorize** com o `accessToken`)
 - Health: http://localhost:8080/actuator/health
 
@@ -80,6 +83,24 @@ Variáveis disponíveis em [`backend/.env.example`](backend/.env.example). **Sem
 cd backend
 ./mvnw test
 ```
+
+## Frontend
+
+Telas do protótipo ligadas à API, em `backend/src/main/resources/static/`:
+
+| Tela | Perfil | Endpoints usados |
+|---|---|---|
+| Login | público | `/auth/login`, `/auth/refresh` (restaura a sessão ao recarregar) |
+| Meus agentes (catálogo) | todos | `/agents/catalog` |
+| Ambiente do agente (chat) | todos | `/agents/{id}`, `/agents/{id}/messages` |
+| Gestão de agentes | gestor | `/agents`, `/agents/stats`, `/submit`, `/suspend` |
+| Cadastrar / editar agente | gestor | `POST /agents`, `PUT /agents/{id}`, `/users` (responsável) |
+| Homologação | gestor | `/agents?status=IN_REVIEW`, `/review`, `/reviews` |
+| Pessoas e acessos | gestor (leitura) · admin (edição) | `/users` |
+| Auditoria | gestor | `/audit-events` |
+| Minha conta | todos | `/me`, `/me/password`, `/auth/sessions`, `/auth/logout-all` |
+
+Os arquivos do frontend são empacotados junto com a API: depois de alterá-los, reinicie a aplicação.
 
 ## API
 
@@ -131,8 +152,9 @@ Detalhes, diagramas e decisões em [`docs/arquitetura.md`](docs/arquitetura.md).
 
 ## Próximos passos
 
-- [ ] Frontend (aplicar a identidade visual de `docs/identidade`)
+- [x] Frontend web com a identidade visual de `docs/identidade`
 - [ ] Integrar um provedor de IA real (nova implementação de `AgentGateway`)
+- [ ] Versão vetorial do símbolo da marca (hoje é o caractere Unicode ◈)
 - [ ] Limite de requisições por IP no login
 - [ ] Testes de integração contra PostgreSQL (Testcontainers) e `Dockerfile` da API
 

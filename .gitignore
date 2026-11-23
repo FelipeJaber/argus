@@ -29,6 +29,7 @@ Thumbs.db
 *.log
 HELP.md
 
-# Frontend (futuro)
+# Ferramentas locais
+.claude/
 node_modules/
 dist/

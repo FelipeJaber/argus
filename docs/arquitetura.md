@@ -18,6 +18,32 @@ br.com.argus
 └── config/      relógio, OpenAPI e dados de demonstração (perfil dev)
 ```
 
+### Frontend
+
+HTML, CSS e JavaScript puros em `src/main/resources/static/`, servidos pelo próprio Spring Boot (mesma
+origem da API, então não há CORS nem configuração extra de cookies).
+
+```
+static/
+├── index.html            shell + Content-Security-Policy (só scripts e estilos deste servidor)
+└── assets/
+    ├── css/argus.css     identidade visual (paleta, Manrope/DM Sans) sobre o layout do protótipo
+    └── js/
+        ├── app.js        restaura a sessão, desenha o menu por perfil e roteia por hash (#/catalog...)
+        ├── api.js        fetch com access token em memória e renovação automática no 401
+        ├── ui.js         escape de HTML, rótulos dos enums, toast, diálogos, erros de formulário
+        └── views/        uma tela por arquivo (login, catálogo, chat, gestão, cadastro, homologação...)
+```
+
+- **Token só em memória:** recarregar a página chama `POST /auth/refresh`, que usa o cookie HttpOnly.
+  Nada de autenticação fica em `localStorage`.
+- **Renovação transparente:** um 401 dispara uma única renovação (compartilhada entre chamadas
+  simultâneas) e a chamada original é repetida. Se a renovação falhar, o usuário volta ao login.
+- **XSS:** todo dado da API passa por `esc()` antes de virar HTML. Não há `onclick` inline, o que
+  permite a CSP `script-src 'self'`.
+- **Perfis:** o menu e as rotas seguem a mesma hierarquia do backend, mas a autorização de verdade
+  continua na API (`@PreAuthorize`). Esconder um botão é só conveniência de interface.
+
 Regras de negócio ficam **nas entidades** (`Agent.approve`, `AuthSession.rotate`, `User.registerFailedLogin`).
 Os serviços orquestram transação, repositórios e auditoria. Os controllers só fazem HTTP.
 
