@@ -1,5 +1,5 @@
 ### Requisições de exemplo (IntelliJ HTTP Client / VS Code REST Client)
-### Suba a API com: ./mvnw spring-boot:run   (perfil dev, dados de demonstração)
+### Suba a API com: ./mvnw spring-boot:run   (H2 + dados de demonstração, sem configuração)
 @base = http://localhost:8080/api/v1
 
 ### Login como gestora de governança (o refresh token volta em cookie HttpOnly)

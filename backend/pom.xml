@@ -65,13 +65,13 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- Banco em memória para o perfil dev e para os testes -->
+        <!-- Banco em memória para desenvolvimento/demonstração e para os testes -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- Console web do H2 (habilitado só no perfil dev: /h2-console) -->
+        <!-- Console web do H2 (/h2-console; desligado nos perfis prod e test) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-h2console</artifactId>
@@ -116,13 +116,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!-- ./mvnw spring-boot:run sobe com H2 + dados de demonstração.
-                         O jar empacotado usa o perfil padrão (PostgreSQL). -->
-                    <profiles>
-                        <profile>dev</profile>
-                    </profiles>
-                </configuration>
+                <!-- Sem perfil, tanto ./mvnw spring-boot:run quanto java -jar sobem com H2 + dados de demonstração
+                     (application.properties). Produção: perfil prod (spring.profiles.active=prod) -->
             </plugin>
         </plugins>
     </build>

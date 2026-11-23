@@ -1,4 +1,4 @@
-# PostgreSQL para rodar a API com o perfil padrão (produção-like).
+# PostgreSQL para rodar a API com o perfil prod (--spring.profiles.active=prod).
 #   docker compose up -d
 # Credenciais apenas para desenvolvimento local.
 services:

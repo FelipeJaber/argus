@@ -15,7 +15,7 @@ br.com.argus
 ├── execution/   uso de agentes: políticas (policy/) e porta para o provedor de IA (gateway/)
 ├── audit/       trilha de auditoria (somente metadados)
 ├── shared/      exceções (RFC 9457), paginação, entidade base
-└── config/      relógio, OpenAPI e dados de demonstração (perfil dev)
+└── config/      relógio, OpenAPI e dados de demonstração (argus.seed.enabled)
 ```
 
 ### Frontend
@@ -131,7 +131,7 @@ sequenceDiagram
 - **Concorrência:** `@Version` (lock otimista) em usuários, agentes e sessões → `409 CONCURRENT_MODIFICATION`.
 - **Erros:** respostas RFC 9457 (`application/problem+json`) com campo `code` estável para o frontend.
 - **Privacidade:** a auditoria nunca grava o texto das mensagens enviadas aos agentes.
-- **Segredo JWT:** a aplicação não sobe sem `ARGUS_JWT_SECRET` com 32 bytes ou mais.
+- **Segredo JWT:** no perfil `prod` a aplicação não sobe sem `ARGUS_JWT_SECRET` com 32 bytes ou mais. A chave fixa do `application.properties` é só de desenvolvimento (o repositório é público).
 
 ## Decisões e alternativas
 
@@ -141,5 +141,5 @@ sequenceDiagram
 | HS256 com segredo compartilhado | RS256 (par de chaves) | Só a própria API emite e valida tokens. Trocar para RS256 é mudar 2 beans em `SecurityConfig` |
 | Spring OAuth2 Resource Server (Nimbus) | Biblioteca JJWT + filtro próprio | Menos código próprio de segurança e validação padrão de `exp`/`iss`/assinatura |
 | Monólito modular por funcionalidade | Camadas (controller/service/repository) | Coesão por assunto e projeto fácil de navegar |
-| H2 no perfil `dev` e nos testes | Testcontainers | Roda sem Docker. O SQL das migrações é compatível com PostgreSQL e H2 |
+| H2 por padrão (desenvolvimento) e nos testes | Testcontainers | Roda sem Docker. O SQL das migrações é compatível com PostgreSQL e H2 |
 | Flyway + `ddl-auto: validate` | `ddl-auto: update` | Schema versionado e revisável. O Hibernate só valida o mapeamento |

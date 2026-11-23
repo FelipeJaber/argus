@@ -81,7 +81,7 @@ SELECT version, description, installed_on FROM flyway_schema_history;
 
 Faça isso **depois** das partes 1 a 3, para as tabelas de sessões e auditoria já terem dados.
 
-> O console só existe no perfil de desenvolvimento e só aceita acesso do próprio computador.
+> O console só aceita acesso do próprio computador.
 > Em produção (PostgreSQL) ele fica desligado.
 
 ## 5. Fechamento (opcional)
@@ -96,7 +96,7 @@ Faça isso **depois** das partes 1 a 3, para as tabelas de sessões e auditoria 
 | Sintoma | O que fazer |
 |---|---|
 | `Port 8080 was already in use` | Feche a outra instância ou rode com `.\mvnw.cmd spring-boot:run "-Dspring-boot.run.arguments=--server.port=8081"` e abra a porta 8081 |
-| "Muitas tentativas sem sucesso" no login | A conta bloqueia após 5 senhas erradas; no perfil de desenvolvimento libera em 1 minuto |
+| "Muitas tentativas sem sucesso" no login | A conta bloqueia após 5 senhas erradas; na configuração de desenvolvimento libera em 1 minuto |
 | Fontes diferentes do layout | Sem internet o navegador usa a fonte padrão; o sistema funciona normalmente |
 | Quer recomeçar do zero | Pare (Ctrl+C) e rode de novo: o banco em memória é recriado com os dados iniciais |
 

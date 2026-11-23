@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestPropertySource;
 
 /**
- * Com o console habilitado (como no perfil dev), só o caminho do console é liberado.
+ * Com o console habilitado (como no application.properties padrão), só o caminho do console é liberado.
  * O servlet do H2 não roda no MockMvc; aqui verificamos que a requisição passa pela segurança
  * (404 em vez de 401) com X-Frame-Options SAMEORIGIN, e que a API continua exigindo token.
  */

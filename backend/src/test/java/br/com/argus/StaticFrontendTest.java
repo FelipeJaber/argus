@@ -34,7 +34,7 @@ class StaticFrontendTest extends IntegrationTest {
     }
 
     @Test
-    void h2ConsoleIsNotExposedOutsideDevProfile() throws Exception {
+    void h2ConsoleIsNotExposedWhenDisabled() throws Exception {
         mvc.perform(get("/h2-console/")).andExpect(status().isUnauthorized());
     }
 

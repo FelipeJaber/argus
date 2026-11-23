@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +23,12 @@ import br.com.argus.user.User;
 import br.com.argus.user.UserRepository;
 
 /**
- * Dados fictícios do protótipo, carregados apenas no perfil {@code dev} e só se o banco estiver vazio.
- * Senha de todos os usuários: {@code argus.seed.password} (padrão no application-dev.yml).
+ * Dados fictícios do protótipo, carregados com {@code argus.seed.enabled=true} (padrão do application.properties;
+ * desligado nos perfis prod e test) e só se o banco estiver vazio.
+ * Senha de todos os usuários: {@code argus.seed.password}.
  */
 @Component
-@Profile("dev")
+@ConditionalOnProperty(name = "argus.seed.enabled", havingValue = "true")
 class DevDataSeeder implements ApplicationRunner {
 
     private static final Logger log = LoggerFactory.getLogger(DevDataSeeder.class);

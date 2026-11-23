@@ -119,15 +119,18 @@ Pré-requisito: **JDK 25**. Maven não é necessário (o projeto usa o Maven Wra
 ```bash
 cd backend
 ./mvnw spring-boot:run          # Windows (PowerShell): .\mvnw.cmd spring-boot:run
+# ou, com o jar já empacotado:  java -jar target/argus-api-0.1.0-SNAPSHOT.jar
 ```
 
-Sobe em `http://localhost:8080` com H2 em memória e os dados fictícios do protótipo.
+Sobe em `http://localhost:8080` com H2 em memória e os dados fictícios do protótipo. Não precisa de variável de
+ambiente nem de perfil: banco, chave JWT e senha de demonstração estão fixos em
+[`application.properties`](backend/src/main/resources/application.properties).
 
 - **Aplicação web: http://localhost:8080** (entre com um dos usuários abaixo)
 - Swagger UI: http://localhost:8080/swagger-ui.html (faça login e use o botão **Authorize** com o `accessToken`)
 - Health: http://localhost:8080/actuator/health
 - Console do banco H2: http://localhost:8080/h2-console (JDBC URL `jdbc:h2:mem:argus`, usuário `sa`, senha vazia;
-  só no perfil dev e só a partir do próprio computador)
+  só a partir do próprio computador; desligado no perfil `prod`)
 
 Usuários de demonstração (senha `Argus@2026`):
 
@@ -138,20 +141,23 @@ Usuários de demonstração (senha `Argus@2026`):
 | `karen@empresa.exemplo` | Gestora de governança |
 | `felipe@empresa.exemplo` | Administrador |
 
-> Dados e credenciais fictícios, criados apenas no perfil `dev`. O banco é em memória: reiniciar volta ao estado inicial.
+> Dados e chaves fictícios, só para desenvolvimento e demonstração (o perfil `prod` não cria esses dados nem usa
+> essas chaves). O banco é em memória: reiniciar volta ao estado inicial.
 >
 > Roteiro passo a passo para apresentar o sistema: [`docs/roteiro-demo.md`](docs/roteiro-demo.md).
 
-### Com PostgreSQL (opcional, usa Docker; é o perfil do jar empacotado)
+### Com PostgreSQL (opcional, usa Docker; perfil `prod`)
 
 ```bash
 docker compose up -d
 cd backend
 ./mvnw -DskipTests package
-ARGUS_JWT_SECRET="$(openssl rand -base64 48)" java -jar target/argus-api-0.1.0-SNAPSHOT.jar
+ARGUS_JWT_SECRET="$(openssl rand -base64 48)" java -jar target/argus-api-0.1.0-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
-Variáveis disponíveis em [`backend/.env.example`](backend/.env.example). **Sem `ARGUS_JWT_SECRET` a aplicação não sobe.**
+O perfil `prod` ([`application-prod.properties`](backend/src/main/resources/application-prod.properties)) lê
+banco e segredos de variáveis de ambiente, listadas em [`backend/.env.example`](backend/.env.example).
+**Nele, sem `ARGUS_JWT_SECRET` a aplicação não sobe.**
 
 ### Testes
 

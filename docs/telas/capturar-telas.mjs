@@ -16,7 +16,7 @@ const OUT = process.argv[2] || dirname(fileURLToPath(import.meta.url));
 const BASE = process.env.ARGUS_URL || 'http://localhost:8080/';
 const EDGE = process.env.BROWSER || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 const PORT = 9333;
-const PASSWORD = 'Argus@2026'; // senha fictícia dos usuários de demonstração (perfil dev)
+const PASSWORD = 'Argus@2026'; // senha fictícia dos usuários de demonstração (application.properties)
 const W = 1440, H = 900;
 
 mkdirSync(OUT, { recursive: true });
