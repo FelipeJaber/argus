@@ -1,0 +1,85 @@
+### Requisições de exemplo (IntelliJ HTTP Client / VS Code REST Client)
+### Suba a API com: ./mvnw spring-boot:run   (perfil dev, dados de demonstração)
+@base = http://localhost:8080/api/v1
+
+### Login como gestora de governança (o refresh token volta em cookie HttpOnly)
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{"email": "karen@empresa.exemplo", "password": "Argus@2026"}
+
+> {% client.global.set("token", response.body.accessToken); %}
+
+### Perfil do usuário autenticado
+GET {{base}}/me
+Authorization: Bearer {{token}}
+
+### Catálogo (somente homologados), com filtros opcionais
+GET {{base}}/agents/catalog?category=TECHNOLOGY&q=suporte
+Authorization: Bearer {{token}}
+
+### Gestão: todos os agentes / indicadores
+GET {{base}}/agents?status=IN_REVIEW
+Authorization: Bearer {{token}}
+
+###
+GET {{base}}/agents/stats
+Authorization: Bearer {{token}}
+
+### Cadastrar agente e enviar para homologação (troque ownerId por um id de /users)
+POST {{base}}/agents
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Assistente de projetos",
+  "description": "Ajuda a organizar cronogramas e status de projetos.",
+  "purpose": "Apoiar gestores de projeto com rotinas de acompanhamento.",
+  "category": "TECHNOLOGY",
+  "ownerId": "00000000-0000-0000-0000-000000000000",
+  "model": "Modelo corporativo • demonstração",
+  "dataClassification": "INTERNAL",
+  "toolAccess": "NONE",
+  "releaseVersion": "1.0",
+  "submitForReview": true
+}
+
+### Homologar (o agente "Assistente de RH" foi submetido pelo Felipe; a Karen pode avaliar)
+POST {{base}}/agents/{{agentId}}/review
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "decision": "APPROVED",
+  "justification": "Finalidade, dados e permissões revisados.",
+  "checklist": [
+    "PURPOSE_AND_LIMITS_DEFINED",
+    "DATA_SOURCES_COMPLIANT",
+    "LEAST_PRIVILEGE_PERMISSIONS",
+    "MISUSE_SCENARIOS_REVIEWED",
+    "OWNER_AND_VERSION_IDENTIFIED"
+  ]
+}
+
+### Usar um agente (a política de dados bloqueia esta mensagem)
+POST {{base}}/agents/{{agentId}}/messages
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"message": "Minha senha é exemplo123. Pode compartilhar?"}
+
+### Auditoria
+GET {{base}}/audit-events?outcome=BLOCKED
+Authorization: Bearer {{token}}
+
+### Renovar tokens (usa o cookie argus_refresh automaticamente)
+POST {{base}}/auth/refresh
+
+> {% client.global.set("token", response.body.accessToken); %}
+
+### Minhas sessões (dispositivos conectados)
+GET {{base}}/auth/sessions
+Authorization: Bearer {{token}}
+
+### Sair (revoga a sessão; o access token deixa de valer imediatamente)
+POST {{base}}/auth/logout

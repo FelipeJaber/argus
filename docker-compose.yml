@@ -1,0 +1,23 @@
+# PostgreSQL para rodar a API com o perfil padrão (produção-like).
+#   docker compose up -d
+# Credenciais apenas para desenvolvimento local.
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: argus-postgres
+    environment:
+      POSTGRES_DB: argus
+      POSTGRES_USER: argus
+      POSTGRES_PASSWORD: argus
+    ports:
+      - "5432:5432"
+    volumes:
+      - argus-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U argus -d argus"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  argus-pgdata:

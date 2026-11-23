@@ -1,0 +1,34 @@
+# Build
+target/
+build/
+out/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+.sts4-cache/
+
+# Ambiente e segredos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Sistema operacional / logs
+.DS_Store
+Thumbs.db
+*.log
+HELP.md
+
+# Frontend (futuro)
+node_modules/
+dist/

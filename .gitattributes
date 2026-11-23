@@ -1,0 +1,9 @@
+* text=auto eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+/backend/mvnw text eol=lf
+
+*.pptx binary
+*.png binary
+*.jpg binary
+*.jar binary
