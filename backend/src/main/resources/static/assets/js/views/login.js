@@ -33,7 +33,7 @@ export default function renderLogin(root, { onLogin }) {
             <input id="email" name="email" type="email" required autocomplete="username" autofocus>
             <label for="password">Senha</label>
             <input id="password" name="password" type="password" required autocomplete="current-password">
-            <div id="login-error" class="field-error" role="alert"></div>
+            <div id="login-error" class="form-error" role="alert"></div>
             <button class="btn" type="submit">Entrar no ambiente <span aria-hidden="true">→</span></button>
           </form>
           <p class="hint">Após várias tentativas sem sucesso, o acesso fica bloqueado por alguns minutos.</p>

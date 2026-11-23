@@ -22,6 +22,7 @@ rastreabilidade. Projeto de TCC de Engenharia de Software.
 │   └── http/argus.http      requisições de exemplo
 ├── docs/
 │   ├── arquitetura.md       arquitetura, fluxo de segurança e decisões
+│   ├── roteiro-demo.md      roteiro para apresentar o MVP
 │   ├── prototipo/           protótipo navegável (HTML)
 │   └── identidade/          identidade visual da marca (PPTX)
 ├── docker-compose.yml       PostgreSQL local
@@ -41,12 +42,13 @@ rastreabilidade. Projeto de TCC de Engenharia de Software.
 ## Como rodar
 
 Pré-requisito: **JDK 25**. Maven não é necessário (o projeto usa o Maven Wrapper).
+**Docker não é necessário** para rodar nem para testar: o padrão é um banco H2 embutido.
 
-### Desenvolvimento (sem banco instalado)
+### Sem Docker, com H2 em memória (recomendado para apresentação)
 
 ```bash
 cd backend
-./mvnw spring-boot:run        # Windows: mvnw.cmd spring-boot:run
+./mvnw spring-boot:run          # Windows (PowerShell): .\mvnw.cmd spring-boot:run
 ```
 
 Sobe em `http://localhost:8080` com H2 em memória e os dados fictícios do protótipo.
@@ -64,9 +66,11 @@ Usuários de demonstração (senha `Argus@2026`):
 | `karen@empresa.exemplo` | Gestora de governança |
 | `felipe@empresa.exemplo` | Administrador |
 
-> Dados e credenciais fictícios, criados apenas no perfil `dev`.
+> Dados e credenciais fictícios, criados apenas no perfil `dev`. O banco é em memória: reiniciar volta ao estado inicial.
+>
+> Roteiro passo a passo para apresentar o sistema: [`docs/roteiro-demo.md`](docs/roteiro-demo.md).
 
-### Com PostgreSQL (perfil padrão)
+### Com PostgreSQL (opcional, usa Docker; é o perfil do jar empacotado)
 
 ```bash
 docker compose up -d

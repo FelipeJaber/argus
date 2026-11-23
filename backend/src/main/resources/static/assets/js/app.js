@@ -124,6 +124,8 @@ function renderShell() {
     const user = state.user;
     state.user = null;
     await auth.logout();
+    // Quem entrar depois começa do catálogo, não na última tela de quem saiu.
+    history.replaceState(null, '', '#/catalog');
     showLogin();
     toast(`Até logo, ${user.name.split(' ')[0]}.`);
   });

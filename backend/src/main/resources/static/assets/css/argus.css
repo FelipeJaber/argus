@@ -140,6 +140,8 @@ textarea { resize: vertical; min-height: 100px; }
 label { display: block; font-size: 12px; font-weight: 600; margin: 0 0 8px; }
 label small { font-weight: 400; color: var(--muted); }
 .field-error { color: var(--bad-fg); font-size: 12px; margin-top: 6px; }
+.form-error { color: var(--bad-fg); font-size: 13px; font-weight: 600; margin-top: 14px; }
+.form-error:empty { display: none; }
 .hint { font-size: 12px; color: var(--muted); line-height: 1.6; }
 .notice { padding: 14px 17px; border-radius: 8px; background: #f1f5e9; border: 1px solid #e1e9d4; font-size: 12px; line-height: 1.6; }
 .notice.warn { background: var(--warn-bg); border-color: #f2dfb8; color: #6f4e17; }
