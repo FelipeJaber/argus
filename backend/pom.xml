@@ -71,6 +71,11 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- Console web do H2 (habilitado só no perfil dev: /h2-console) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-h2console</artifactId>
+        </dependency>
 
         <!-- Operação -->
         <dependency>

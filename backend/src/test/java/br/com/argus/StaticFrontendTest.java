@@ -34,6 +34,11 @@ class StaticFrontendTest extends IntegrationTest {
     }
 
     @Test
+    void h2ConsoleIsNotExposedOutsideDevProfile() throws Exception {
+        mvc.perform(get("/h2-console/")).andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void apiStillRequiresAuthentication() throws Exception {
         mvc.perform(get("/api/v1/agents/catalog")).andExpect(status().isUnauthorized());
     }

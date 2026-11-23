@@ -56,6 +56,8 @@ Sobe em `http://localhost:8080` com H2 em memória e os dados fictícios do prot
 - **Aplicação web: http://localhost:8080** (entre com um dos usuários abaixo)
 - Swagger UI: http://localhost:8080/swagger-ui.html (faça login e use o botão **Authorize** com o `accessToken`)
 - Health: http://localhost:8080/actuator/health
+- Console do banco H2: http://localhost:8080/h2-console (JDBC URL `jdbc:h2:mem:argus`, usuário `sa`, senha vazia;
+  só no perfil dev e só a partir do próprio computador)
 
 Usuários de demonstração (senha `Argus@2026`):
 

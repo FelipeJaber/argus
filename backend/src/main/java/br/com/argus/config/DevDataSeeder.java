@@ -48,17 +48,21 @@ class DevDataSeeder implements ApplicationRunner {
         this.password = password;
     }
 
+    /** Um hash por usuário: o BCrypt gera um salt novo a cada chamada, como num cadastro real. */
+    private String hash() {
+        return passwordEncoder.encode(password);
+    }
+
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
         if (users.count() > 0) {
             return;
         }
-        String hash = passwordEncoder.encode(password);
-        User breno = users.save(new User("Breno Cardoso Vieira", "breno@empresa.exemplo", hash, Role.COLLABORATOR, "Comunicação"));
-        User karen = users.save(new User("Karen Quézia Oliveira", "karen@empresa.exemplo", hash, Role.MANAGER, "Governança"));
-        User felipe = users.save(new User("Felipe Jaber Andrade", "felipe@empresa.exemplo", hash, Role.ADMIN, "Tecnologia"));
-        users.save(new User("Marya Laura Menezes", "marya@empresa.exemplo", hash, Role.COLLABORATOR, "Comunicação"));
+        User breno = users.save(new User("Breno Cardoso Vieira", "breno@empresa.exemplo", hash(), Role.COLLABORATOR, "Comunicação"));
+        User karen = users.save(new User("Karen Quézia Oliveira", "karen@empresa.exemplo", hash(), Role.MANAGER, "Governança"));
+        User felipe = users.save(new User("Felipe Jaber Andrade", "felipe@empresa.exemplo", hash(), Role.ADMIN, "Tecnologia"));
+        users.save(new User("Marya Laura Menezes", "marya@empresa.exemplo", hash(), Role.COLLABORATOR, "Comunicação"));
 
         Agent ti = new Agent(new AgentDetails("Suporte de TI",
                 "Encontre orientações e procedimentos para resolver demandas técnicas do dia a dia.",

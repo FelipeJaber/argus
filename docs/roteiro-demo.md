@@ -49,7 +49,42 @@ Senha de todos os usuários de demonstração: `Argus@2026`.
 3. **Auditoria:** quem fez o quê e quando, com filtros por evento e resultado: logins, senha errada,
    bloqueios de política, submissões e aprovações.
 
-## 4. Fechamento (opcional)
+## 4. Mostrar o banco de dados (console H2)
+
+Abra **http://localhost:8080/h2-console** em outra aba e preencha:
+
+| Campo | Valor |
+|---|---|
+| JDBC URL | `jdbc:h2:mem:argus` (troque o `jdbc:h2:~/test` que vem preenchido) |
+| User Name | `sa` |
+| Password | (vazio) |
+
+Clique **Connect**, cole uma consulta no campo de SQL e use **Run** (ou Ctrl+Enter):
+
+```sql
+-- Senhas: só o hash BCrypt, cada um com salt diferente (nunca a senha em texto)
+SELECT name, email, role, password_hash FROM users;
+
+-- Sessões de login: o refresh token fica só como hash SHA-256; logout/revogação ficam registrados
+SELECT user_id, refresh_token_hash, created_at, expires_at, revoked_at, revoked_reason FROM auth_sessions;
+
+-- Auditoria: metadados do que aconteceu, sem o texto das mensagens enviadas aos agentes
+SELECT occurred_at, action, outcome, actor_name, agent_name, detail FROM audit_events ORDER BY occurred_at DESC;
+
+-- Ciclo de vida dos agentes e pareceres de homologação
+SELECT name, status, release_version FROM agents;
+SELECT reviewed_at, decision, justification, reviewed_version FROM agent_reviews;
+
+-- Schema versionado pelo Flyway
+SELECT version, description, installed_on FROM flyway_schema_history;
+```
+
+Faça isso **depois** das partes 1 a 3, para as tabelas de sessões e auditoria já terem dados.
+
+> O console só existe no perfil de desenvolvimento e só aceita acesso do próprio computador.
+> Em produção (PostgreSQL) ele fica desligado.
+
+## 5. Fechamento (opcional)
 
 - Entre de novo como Breno: o catálogo agora tem os agentes aprovados durante a demonstração.
 - **Minha conta:** dispositivos conectados e "sair de todos os dispositivos".
