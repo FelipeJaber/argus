@@ -72,7 +72,7 @@ export default {
       event.preventDefault();
       const text = input.value.trim();
       if (!text) return;
-      const button = event.submitter;
+      const button = event.submitter || form.querySelector('button[type="submit"]');
 
       messages.insertAdjacentHTML('beforeend', `<div class="bubble user">${esc(text)}</div>`);
       const pending = document.createElement('div');
